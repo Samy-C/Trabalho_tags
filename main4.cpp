@@ -7,42 +7,50 @@
 #include "pilha.h"
 using namespace std;
 
-bool tagFech(const string& tag) {
-    return !tag.empty() && tag[0] == '/';
-}
 
-string pegaNome(const string& tag) {
-    string nome = tag;
-    if (tagFech(nome)) {
-        nome = nome.substr(1); 
+//Funcion tagFech: Identifica etiqueta de cierre
+ bool tagFech(const string& tag) {
+        return !tag.empty() && tag[0] == '/'; /* Devuelve true si:
+                                               tag n está vazia e se seu primer carácter es /.
+                                                tagFech("/Engine") → true */
     }
-    size_t espaco = nome.find(' ');
-    if (espaco != string::npos) {
-        nome = nome.substr(0, espaco);
+    
+// Pega o nome do tag    
+    string pegaNome(const string& tag) {
+        string nome = tag;
+        if (tagFech(nome)) {                    // Chama a função tagFech
+            nome = nome.substr(1);              //Se é uma etiqueta de fechamento, remove o primer carácter (/)
+                                                // e guarda o nome
+        }
+        size_t espaco = nome.find(' ');
+        if (espaco != string::npos) {
+            nome = nome.substr(0, espaco);
+        }
+        return nome;
     }
-    return nome;
-}
-
+    
+//Função para imprimir os atributos ex: manufacturer="Kia Motors" model="Sportage" year="2009" extras="XL" 
 void imprimirAtributos(string atributos) {
-    string atributosvet[100]; 
-    int conta = 0; 
+    string atributosvet[100];                           //Salva até 100 atributos
+    int conta = 0;                                      //Contador de atributos 
 
     size_t pos = 0;
 
-    while (pos < atributos.length()) {
-        size_t igual = atributos.find('=', pos);
-        if (igual == string::npos) break; 
+    while (pos < atributos.length()) { 
+        size_t igual = atributos.find('=', pos);        //Salva a pos quando encontrar um =
+        if (igual == string::npos) break;               // Si no se encuentra un = termina el bucle
 
-        size_t aspasInicio = atributos.find('"', igual);
-        size_t aspasFim = atributos.find('"', aspasInicio + 1);
-        if (aspasInicio == string::npos || aspasFim == string::npos) break; 
+        size_t aspasInicio = atributos.find('"', igual);                                //Procura as aspas depois de o signo =
+        size_t aspasFim = atributos.find('"', aspasInicio + 1);                         //Procura as outras aspas por isso coloco +1
+        if (aspasInicio == string::npos || aspasFim == string::npos) break;             // N achei fechou o blucle
 
-        string atributo = atributos.substr(pos, aspasFim - pos + 1);
-        atributosvet[conta++] = atributo; 
+        string atributo = atributos.substr(pos, aspasFim - pos + 1);                    //Coloca tudo o q vai depois do igual ate as aspasFim ex: "Kia Motors"
+        atributosvet[conta++] = atributo;                                               //Contador de atributos 
 
-        pos = aspasFim + 2;
+        pos = aspasFim + 2;                         //Actualiza a variavel pos para buscar o outro atributo 
     }
 
+//Bubble Sort para ordenar em ordem alfabetica 
     for (int i = 0; i < conta - 1; i++) {
         for (int j = 0; j < conta - 1 - i; j++) {
             if (atributosvet[j] > atributosvet[j + 1]) {
@@ -58,8 +66,10 @@ void imprimirAtributos(string atributos) {
     }
 }
 
+
+
 int main() {
-    string nomeArquivo = "001-valido.dcar "; //o espaço depois de "dcar " é nessesario porque o nome do arquivo com 
+    string nomeArquivo = "001-valido.dcar"; //o espaço depois de "dcar " é nessesario porque o nome do arquivo com 
                                              //as informações do carro so é salvo como ( <> ) se tiver um espaço no final. "dificuldade no meu computador"
     //string nomeArquivo = "002-invalido.dcar ";
     //string nomeArquivo = "003-invalido.dcar ";
@@ -77,7 +87,7 @@ int main() {
     int linhaAtual = 0;
     bool falha = false;
 
-    while (getline(arquivo, linha)) {
+    while (getline(arquivo, linha)) {               //Ignora # já que só le quando tem < ou >
         linhaAtual++;
         size_t pos = linha.find('<');
         while (pos != string::npos) {
@@ -122,5 +132,5 @@ int main() {
     }
 
     arquivo.close();
-    return 0;
+return 0;
 }
