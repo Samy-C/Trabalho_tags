@@ -1,7 +1,7 @@
-#Trabalho Tags (.dcar)
+## TRABALHO TAGS (.dcar)
 Samy Chapaca e Mauricio Duarte
 
-Criar un código em C++ de um interpretador para a lenguagem DESCAR que cumpla com as siguientes funcionalidades.
+Código em C++ de um interpretador para a linguagem DESCAR que cumpre com as seguientes funcionalidades.
 
 Funcionalidades:
 
