@@ -94,7 +94,7 @@ int main() {
             size_t fim = linha.find('>', pos);
             if (fim == string::npos) break; 
 
-            string tag = linha.substr(pos + 1, fim - pos - 1);
+            string tag = linha.substr(pos + 1, fim - pos - 1);  //Extrae tudo o q tem dentro de <>
             string nomeTag = pegaNome(tag);
 
             if (!tagFech(tag)) {
@@ -102,10 +102,10 @@ int main() {
 
                 cout << "\n" << "Tag encontrada: <" << nomeTag << ">";
 
-                size_t espaco = tag.find(' ');
+                size_t espaco = tag.find(' ');                  //Procura o espaco
                 if (espaco != string::npos) {
-                    string atributos = tag.substr(espaco + 1);
-                    imprimirAtributos(atributos);
+                    string atributos = tag.substr(espaco + 1);  //Extrae tudo o vai depois do espaco
+                    imprimirAtributos(atributos);               //Chama a funcao imprimirAtributos
                 }
             } else {
                 if (pilha.vazia() || pilha.topoPilha() != nomeTag) {
